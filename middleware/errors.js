@@ -1,0 +1,12 @@
+const {validationResult} = require('express-validator');
+
+const checkBody = (req , res, next) => {
+  console.log(req);
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.status(400).json({error: errors.array() , code:400});
+  }
+  next();
+}
+
+module.exports = checkBody;
