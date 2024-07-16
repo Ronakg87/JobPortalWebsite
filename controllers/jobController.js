@@ -40,21 +40,34 @@ const jobs = async(req, res) => {
   
   const search_jobs = async (req,res)=>{
     try {
-      
+
+
       let conditions = {};
-      if(req.query.keyword){
-        conditions['$or'] = [{"jobTitle": new RegExp(req.query.keyword,"i")}, {"jobDesc": new RegExp(req.query.keyword,"i")}]
-      }
+      // if(req.query.keyword){
+      //   conditions['$or'] = [{"jobTitle": new RegExp(req.query.keyword,"i")}, {"jobDesc": new RegExp(req.query.keyword,"i")}]
+      // }
   
       // if(req.query.skill){
       //   var skillkeys = req.query.skill.split(',');
       //   conditions["keySkills"] =  { $all: skillkeys};
       // }
   
+      if(req.query.jobTitle){
+        conditions["jobTitle"] = new RegExp(req.query.jobTitle,"i")
+      }
+      if(req.query.jobDesc){
+        conditions["jobDesc"] = new RegExp(req.query.jobDesc,"i")
+      }
+      if(req.query.companyName){
+        conditions["companyName"] = new RegExp(req.query.companyName,"i")
+      }
+      if(req.query.contactNo){
+        conditions["contactNo"] = new RegExp(req.query.contactNo,"i")
+      }
       if(req.query.address){
         conditions["address"] = new RegExp(req.query.address,"i")
       }
-      console.log(conditions);
+      
       const result = await createJobs.find(conditions);
   
       res.status(200).send({success: true, data: result});
